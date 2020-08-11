@@ -15,23 +15,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Checking all python changes in the new commits
+FOUND_ISSUE=0
+IFS=$'\n'
 
-FOUND_ISSUE=-1
+for commit in `git log origin/master..master --format="%s"`
+do
+ ./tools/githooks/commit-msg "" "$commit"
 
-files=`git diff --name-only origin/master --diff-filter=b | egrep .py$ | grep -v /ext-py/`
+ if [ "$?" -ne "0" ]
+  then
+    echo "Not matching commit title '$commit'"
+    FOUND_ISSUE=-1
+  fi
+done
 
-if [ ! -z "$files" ];
+if [ "$FOUND_ISSUE" -eq "0" ]
 then
-  ./build/env/bin/hue runpylint --files "$files"
+  echo "All commit titles are good"
 fi
 
-if [ -z "$files" ] || [ "$?" -eq "0" ]
-then
-  FOUND_ISSUE=0
-  echo "No Python code styling issues found"
-else
-  echo "Found some Python code styling issues"
-fi
+unset IFS
 
 exit $FOUND_ISSUE
