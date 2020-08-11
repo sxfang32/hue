@@ -105,6 +105,10 @@ Restart Hue, open the Editors and start typing your first queries!
 * [https://github.com/cloudera/hue/blob/master/.eslintrc.js](.eslintrc.js)
 * [https://github.com/cloudera/hue/blob/master/desktop/.pylintrc](.pylintrc)
 * [https://github.com/cloudera/hue/blob/master/.prettierrc](.prettierrc)
+* [https://github.com/cloudera/hue/blob/master/tools/githooks](git hooks)
+
+    cp tools/githooks/* .git/hooks
+    chmod +x .git/hooks/*
 
 #### Visual Code
 
